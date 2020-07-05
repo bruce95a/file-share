@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>测试报告</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/w3.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+</head>
+<body class="w3-light-grey w3-content" style="max-width:1600px">
+
+<!-- Sidebar/menu -->
+<nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+    <div class="w3-container">
+        <a href="#" onclick="w3_close()" class="w3-hide-large w3-right w3-jumbo w3-padding w3-hover-grey" title="close menu">
+            <i class="fa fa-remove"></i>
+        </a>
+        <img src="img/avatar_g2.jpg" style="width:45%;" class="w3-round"><br><br>
+        <h4><b>天下</b></h4>
+    </div>
+    <div class="w3-bar-block">
+        <a href="/profile" class="w3-bar-item w3-button w3-padding"><i class="fa fa-user fa-fw w3-margin-right"></i>修改账号</a>
+        <a href="/config" class="w3-bar-item w3-button w3-padding"><i class="fa fa-cog fa-fw w3-margin-right"></i>配置本站</a>
+        <a href="/logout" class="w3-bar-item w3-button w3-padding"><i class="fa fa-sign-out fa-fw w3-margin-right"></i>注销</a>
+    </div>
+</nav>
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:300px">
+
+
+    <!-- Header -->
+    <header id="portfolio">
+        <a href="#"><img src="img/avatar_g2.jpg" style="width:65px;" class="w3-circle w3-right w3-margin w3-hide-large w3-hover-opacity"></a>
+        <span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" onclick="w3_open()"><i class="fa fa-bars"></i></span>
+        <div class="w3-container">
+            <h1><b>天下的测试报告</b></h1>
+            <div class="w3-section w3-bottombar w3-padding-16">
+                <span class="w3-margin-right">操作:</span>
+                <a href="/rescan" class="w3-button w3-white" title="从保存目录重新加载报告"><i class="fa fa-refresh fa-fw w3-margin-right"></i>刷新</a>
+                <a href="/upload" class="w3-button w3-white" title="上传新报告"><i class="fa fa-plus fa-fw w3-margin-right"></i>添加</a>
+            </div>
+        </div>
+    </header>
+    <table class="w3-table-all">
+        <tr>
+            <th>名称</th>
+            <th>时间</th>
+            <th>操作</th>
+        </tr>
+        <tr th:each="report : ${reports}">
+            <td th:text="${report.name}">今天上午的测试报告1</td>
+            <td th:text="${report.datetime}">2020-06-15 10:10:10</td>
+            <td>
+                <a th:href="@{/download(id=${report.uuid})}" title="下载"><i class="fa fa-download"></i></a>&nbsp;
+                <a th:href="@{/code(id=${report.uuid})}" title="二维码"><i class="fa fa-qrcode"></i></a>&nbsp;
+                <a th:href="@{/del(id=${report.uuid})}" title="删除"><i class="fa fa-remove"></i></a>
+            </td>
+        </tr>
+    </table>
+
+    <!-- Pagination -->
+    <div class="w3-center w3-padding-32">
+        <div class="w3-bar">
+            <span th:classappend="${page eq 1} ? 'w3-hide'">
+                <a class="w3-bar-item w3-button" th:href="@{/report(p=${page lt 1 ? 1 : page - 1})}">«</a>
+            </span>
+            <span th:each="i : ${#numbers.sequence(page > totalPage - 5 ? (totalPage - 4 > 0 ? totalPage - 4 : 1) : page, totalPage > 5 + page ? page + 5 : totalPage, 1)}">
+                <a th:href="@{/report(p=${i})}" th:text="${i}" class="w3-bar-item w3-button" th:classappend="${i eq page} ? 'w3-green'"></a>
+            </span>
+            <span th:if="${page + 5 < totalPage}">
+                <button class="w3-bar-item w3-button">...</button>
+            </span>
+            <span th:classappend="${page eq totalPage} ? 'w3-hide'">
+                <a class="w3-bar-item w3-button" th:href="@{/report(p=${page + 1})}">»</a>
+            </span>
+        </div>
+    </div>
+
+    <div class="w3-green w3-center w3-padding-24">Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-opacity">w3.css</a></div>
+
+    <!-- End page content -->
+</div>
+
+<script>
+// Script to open and close sidebar
+function w3_open() {
+    document.getElementById("mySidebar").style.display = "block";
+    document.getElementById("myOverlay").style.display = "block";
+}
+
+function w3_close() {
+    document.getElementById("mySidebar").style.display = "none";
+    document.getElementById("myOverlay").style.display = "none";
+}
+</script>
+
+</body>
+</html>

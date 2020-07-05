@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>上传报告</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/w3.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+</head>
+<body>
+<header class="w3-container w3-teal w3-center">
+    <h1>上传报告</h1>
+</header>
+
+<div class="w3-container">
+    <div class="w3-modal-content">
+        <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
+            <form class="w3-container" action="/upload" method="post" enctype="multipart/form-data">
+                <div class="w3-section">
+                    <div th:unless="${msg == null}" class="w3-container w3-red">
+                        <p th:text="${msg}"></p>
+                    </div>
+
+                    <div class="w3-row w3-section">
+                        <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-file"></i></div>
+                        <div class="w3-rest">
+                            <input type="file" name="file">
+                        </div>
+                    </div>
+
+                    <button class="w3-button w3-block w3-green w3-section w3-padding" type="submit">上传</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
