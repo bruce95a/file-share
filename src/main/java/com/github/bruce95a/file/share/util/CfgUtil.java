@@ -3,6 +3,7 @@ package com.github.bruce95a.file.share.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -40,7 +41,10 @@ public class CfgUtil {
             SQLiteUtil sqLiteUtil = SQLiteUtil.getInstance();
             ResultSet rs = sqLiteUtil.select("SELECT value FROM config WHERE name = 'storePath';");
             if (rs != null && rs.next()) {
-                pathConfigured = true;
+                String path = rs.getString("value");
+                if (new File(path).exists()) {
+                    pathConfigured = true;
+                }
             }
         } catch (SQLException e) {
             logger.error("=== SQL ERR ===", e);

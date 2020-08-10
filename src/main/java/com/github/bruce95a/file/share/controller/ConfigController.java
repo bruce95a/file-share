@@ -1,6 +1,7 @@
 package com.github.bruce95a.file.share.controller;
 
 import com.github.bruce95a.file.share.service.ConfigService;
+import com.github.bruce95a.file.share.service.FileService;
 import com.github.bruce95a.file.share.util.CfgUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,9 @@ public class ConfigController {
 
     @Autowired
     private ConfigService configService;
+
+    @Autowired
+    private FileService fileService;
 
     @RequestMapping(value = "/config", method = RequestMethod.GET)
     public String showConfig(Model model) {
@@ -58,6 +62,7 @@ public class ConfigController {
             model.addAttribute("msg", "发生错误");
             return "config";
         }
+        fileService.rescan();
         return "redirect:/report";
     }
 
