@@ -16,7 +16,6 @@
 
 	<properties>
 		<java.version>11</java.version>
-		<sqlite-jdbc.version>3.32.3.2</sqlite-jdbc.version>
 		<zxing.version>3.4.0</zxing.version>
 	</properties>
 
@@ -42,9 +41,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.xerial</groupId>
-			<artifactId>sqlite-jdbc</artifactId>
-			<version>${sqlite-jdbc.version}</version>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 
 		<dependency>

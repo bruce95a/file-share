@@ -22,8 +22,8 @@ public class InitUtil {
         初始化表
          */
         logger.info("init database");
-        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS config (name TEXT PRIMARY KEY, value TEXT NOT NULL)");
-        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS report (uuid TEXT PRIMARY KEY, name TEXT UNIQUE NOT NULL, datetime DATETIME, last DATETIME)");
+        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS config (name varchar(255) PRIMARY KEY, value varchar(255) NOT NULL)");
+        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS report (uuid varchar(255) PRIMARY KEY, name varchar(255) UNIQUE NOT NULL, datetime DATETIME, last DATETIME)");
         jdbcTemplate.execute("CREATE INDEX IF NOT EXISTS index_report_1 ON report (datetime)");
         List<String> value = jdbcTemplate.queryForList("SELECT value FROM config", String.class);
         if (value.size() == 0) {

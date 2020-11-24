@@ -7,7 +7,7 @@ add a directory to share, then you can share the files through QR-Code. Someone 
 * Spring
 * Thymeleaf
 * MyBatis
-* SQLite
+* H2 database
 * ZXing
 * w3.css
 
