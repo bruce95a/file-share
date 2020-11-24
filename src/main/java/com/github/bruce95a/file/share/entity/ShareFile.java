@@ -6,6 +6,7 @@ public class ShareFile implements Serializable {
     private String uuid;
     private String name;
     private String datetime;
+    private String last;
 
     public String getUuid() {
         return uuid;
@@ -29,5 +30,13 @@ public class ShareFile implements Serializable {
 
     public void setDatetime(String datetime) {
         this.datetime = datetime;
+    }
+
+    public String getLast() {
+        return last;
+    }
+
+    public void setLast(String last) {
+        this.last = last;
     }
 }

@@ -2,7 +2,6 @@ package com.github.bruce95a.file.share.controller;
 
 import com.github.bruce95a.file.share.service.ConfigService;
 import com.github.bruce95a.file.share.service.FileService;
-import com.github.bruce95a.file.share.util.CfgUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,12 +25,8 @@ public class ConfigController {
 
     @RequestMapping(value = "/config", method = RequestMethod.GET)
     public String showConfig(Model model) {
-        if (CfgUtil.isPathInit()) {
-            model.addAttribute("store", configService.getStorePath());
-        }
-        if (CfgUtil.isSiteInit()) {
-            model.addAttribute("address", configService.getSiteAddress());
-        }
+        model.addAttribute("store", configService.getStorePath());
+        model.addAttribute("address", configService.getSiteAddress());
         return "config";
     }
 

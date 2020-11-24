@@ -13,5 +13,5 @@ public interface FileService {
 
     public abstract boolean rescan();
 
-    public abstract Map<String, Object> getFiles(String page, String fileName, String sdt, String edt);
+    public abstract Map<String, Object> getFiles(String page);
 }

@@ -69,20 +69,18 @@ public class FileController {
 
     @RequestMapping(value = "/report", method = RequestMethod.GET)
     public String report(@RequestParam("p") Optional<String> page,
-                         @RequestParam("n") Optional<String> fileName,
-                         @RequestParam("b") Optional<String> sdt,
-                         @RequestParam("e") Optional<String> edt,
                          Model model) {
-        Map<String, Object> map = fileService.getFiles(page.orElse("1"), fileName.orElse(""), sdt.orElse(""), edt.orElse(""));
+        Map<String, Object> map = fileService.getFiles(page.orElse("1"));
         model.addAttribute("page", Integer.valueOf(page.orElse("1")));
+        int totalPage = 1;
         if (map.get("count") != null) {
             int count = (int) map.get("count");
-            int totalPage = count % 10 == 0 ? (count / 10) : (count / 10 + 1);
+            totalPage = count % 10 == 0 ? (count / 10) : (count / 10 + 1);
             if (totalPage == 0) {
                 totalPage = 1;
             }
-            model.addAttribute("totalPage", totalPage);
         }
+        model.addAttribute("totalPage", totalPage);
         if (map.get("list") != null) {
             model.addAttribute("reports", map.get("list"));
         }
