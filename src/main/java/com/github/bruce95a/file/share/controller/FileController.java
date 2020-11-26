@@ -1,16 +1,12 @@
 package com.github.bruce95a.file.share.controller;
 
 import com.github.bruce95a.file.share.entity.ShareFile;
-import com.github.bruce95a.file.share.service.ConfigService;
+import com.github.bruce95a.file.share.service.CfgService;
 import com.github.bruce95a.file.share.service.FileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
@@ -19,10 +15,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
-@Controller
+@RestController
 public class FileController {
     private static final Logger logger = LoggerFactory.getLogger(FileController.class);
 
@@ -30,17 +26,18 @@ public class FileController {
     private FileService fileService;
 
     @Autowired
-    private ConfigService configService;
+    private CfgService cfgService;
 
-    @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public String uploadFile(@RequestParam("file") MultipartFile multipartFile, Model model) {
-        final String filePath = configService.getStorePath();
+    @PostMapping("/upload")
+    public Map<String, Object> uploadFile(@RequestParam("file") MultipartFile multipartFile) {
+        Map<String, Object> result = new HashMap<>();
+        final String filePath = cfgService.getStorePath();
         final String fileName = multipartFile.getOriginalFilename();
         final String fileFullPath = filePath + fileName;
         File file = new File(fileFullPath);
         if (file.exists()) {
-            model.addAttribute("msg", "文件已存在");
-            return "upload";
+            result.put("msg", "文件已存在");
+            return result;
         }
         try {
             multipartFile.transferTo(file);
@@ -49,17 +46,17 @@ public class FileController {
             fileService.saveFile(shareFile);
         } catch (IOException e) {
             logger.error("保存文件出错", e);
-            model.addAttribute("msg", e.getMessage());
-            return "upload";
+            result.put("msg", e.getMessage());
+            return result;
         }
-        return "redirect:/report";
+        return result;
     }
 
-    @RequestMapping(value = "/download", method = RequestMethod.GET)
-    public StreamingResponseBody downloadFile(@RequestParam("id") String uuid,
+    @GetMapping("/reports/{uuid}")
+    public StreamingResponseBody downloadFile(@PathVariable String uuid,
                                               HttpServletResponse response) {
         final String fileName = fileService.getFileName(uuid);
-        final String filePath = configService.getStorePath();
+        final String filePath = cfgService.getStorePath();
         final String fileFullPath = filePath + fileName;
         response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
         return outputStream -> {
@@ -67,36 +64,20 @@ public class FileController {
         };
     }
 
-    @RequestMapping(value = "/report", method = RequestMethod.GET)
-    public String report(@RequestParam("p") Optional<String> page,
-                         Model model) {
-        Map<String, Object> map = fileService.getFiles(page.orElse("1"));
-        model.addAttribute("page", Integer.valueOf(page.orElse("1")));
-        int totalPage = 1;
-        if (map.get("count") != null) {
-            int count = (int) map.get("count");
-            totalPage = count % 10 == 0 ? (count / 10) : (count / 10 + 1);
-            if (totalPage == 0) {
-                totalPage = 1;
-            }
-        }
-        model.addAttribute("totalPage", totalPage);
-        if (map.get("list") != null) {
-            model.addAttribute("reports", map.get("list"));
-        }
-        return "report";
+    @GetMapping("/reports")
+    public Map<String, Object> reports(@RequestParam(value = "page", defaultValue = "1") Integer page,
+                                     @RequestParam(value = "size", defaultValue = "10") Integer size) {
+        return fileService.getFiles(page, size);
     }
 
-    @RequestMapping(value = "/rescan", method = RequestMethod.GET)
-    public String rescan(Model model) {
+    @GetMapping("/rescan")
+    public void rescan() {
         fileService.rescan();
-        return "redirect:/report";
     }
 
-    @RequestMapping(value = "/del", method = RequestMethod.GET)
-    public String del(@RequestParam("id") String uuid,
-                      Model model) {
-        final boolean b = fileService.delFile(uuid);
-        return "redirect:/report";
+    @DeleteMapping("/reports/{uuid}")
+    public void del(@PathVariable String uuid) {
+        int c = fileService.delFile(uuid);
+        logger.debug("delete count" + c);
     }
 }

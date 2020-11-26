@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 public class AppInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        ServletContext context = request.getServletContext();
+        /*ServletContext context = request.getServletContext();
         if (context.getAttribute("User") == null) {
             return true;
         }
@@ -20,7 +20,8 @@ public class AppInterceptor implements HandlerInterceptor {
             return true;
         }
         response.sendRedirect("/info?l=1");
-        return false;
+        return false;*/
+        return true;
     }
 
     @Override

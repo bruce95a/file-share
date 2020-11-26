@@ -1,7 +1,7 @@
 package com.github.bruce95a.file.share.service.impl;
 
 import com.github.bruce95a.file.share.mapper.CfgMapper;
-import com.github.bruce95a.file.share.service.ConfigService;
+import com.github.bruce95a.file.share.service.CfgService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 
 @Service
-public class ConfigServiceImpl implements ConfigService {
-    private static final Logger logger = LoggerFactory.getLogger(ConfigServiceImpl.class);
+public class CfgServiceImpl implements CfgService {
+    private static final Logger logger = LoggerFactory.getLogger(CfgServiceImpl.class);
 
     @Autowired
     private CfgMapper dao;

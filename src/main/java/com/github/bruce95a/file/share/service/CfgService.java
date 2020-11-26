@@ -1,6 +1,6 @@
 package com.github.bruce95a.file.share.service;
 
-public interface ConfigService {
+public interface CfgService {
 
     public abstract String getStorePath();
 

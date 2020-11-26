@@ -28,8 +28,8 @@ public interface FileMapper {
     @Delete("DELETE FROM report WHERE last=#{last}")
     int deleteLast(String last);
 
-    @Select("SELECT * FROM report ORDER BY datetime DESC LIMIT 10 offset #{index}")
-    List<ShareFile> selectAll(int index);
+    @Select("SELECT * FROM report ORDER BY datetime DESC LIMIT #{size} offset #{index}")
+    List<ShareFile> selectAll(int index, int size);
 
     @Select("SELECT count(*) FROM report")
     int selectAllCount();

@@ -2,7 +2,7 @@ package com.github.bruce95a.file.share.service.impl;
 
 import com.github.bruce95a.file.share.entity.ShareFile;
 import com.github.bruce95a.file.share.mapper.FileMapper;
-import com.github.bruce95a.file.share.service.ConfigService;
+import com.github.bruce95a.file.share.service.CfgService;
 import com.github.bruce95a.file.share.service.FileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,14 +15,17 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class FileServiceImpl implements FileService {
     private static final Logger logger = LoggerFactory.getLogger(FileServiceImpl.class);
 
     @Autowired
-    private ConfigService configService;
+    private CfgService cfgService;
 
     @Autowired
     private FileMapper dao;
@@ -40,7 +43,7 @@ public class FileServiceImpl implements FileService {
                 return true;
             }
             String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-            String storePath = configService.getStorePath();
+            String storePath = cfgService.getStorePath();
             File file = new File(String.format("%s%s", storePath, shareFile.getName()));
             String datetime = "";
             Path filePath = file.toPath();
@@ -73,8 +76,8 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public boolean delFile(String uuid) {
-        return dao.delete(uuid) > 0;
+    public int delFile(String uuid) {
+        return dao.delete(uuid);
     }
 
     /**
@@ -84,7 +87,7 @@ public class FileServiceImpl implements FileService {
      */
     @Override
     public boolean rescan() {
-        String storePath = configService.getStorePath();
+        String storePath = cfgService.getStorePath();
         if (storePath == null) {
             return false;
         }
@@ -118,14 +121,11 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public Map<String, Object> getFiles(String page) {
+    public Map<String, Object> getFiles(int page, int size) {
         Map<String, Object> map = new HashMap<>();
-        int offset = 0;
-        if (page != null && !"".equals(page)) {
-            offset = (Integer.parseInt(page) - 1) * 10;
-        }
+        int offset = (page - 1) * size;
         map.put("count", dao.selectAllCount());
-        map.put("list", dao.selectAll(offset));
+        map.put("reports", dao.selectAll(offset, size));
         return map;
     }
 }

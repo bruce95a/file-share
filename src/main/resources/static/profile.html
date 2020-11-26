@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>测试报告管理</title>
+    <link rel="stylesheet" href="css/w3.css">
+    <script src="js/vue.js"></script>
+    <script src="js/axios.js"></script>
+</head>
+<body>
+<header class="w3-container w3-teal w3-center">
+    <h1>账号密码管理</h1>
+</header>
+
+<div class="w3-container" id="app">
+    <div class="w3-modal-content">
+        <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width: 600px;">
+
+            <div class="w3-center"><br>
+                <img src="img/avatar.png" alt="头像" style="width:30%" class="w3-circle w3-margin-top">
+            </div>
+
+            <form class="w3-container" action="/profile" method="post">
+                <div class="w3-section">
+                    <div v-if="msg != ''" class="w3-container w3-red">
+                        <p>{{ msg }}</p>
+                    </div>
+
+                    <label><b>用户名</b></label>
+                    <input v-model="user" class="w3-input w3-border w3-margin-bottom" type="text" placeholder="请输入用户名" name="user" required>
+                    <label><b>原密码</b></label>
+                    <input v-model="psw" class="w3-input w3-border" type="password" placeholder="请输入原密码" name="psw" required>
+                    <label><b>新密码</b></label>
+                    <input v-model="pswNew" class="w3-input w3-border" type="password" placeholder="请输入新密码" name="pswNew" required>
+                    <label><b>确认密码</b></label>
+                    <input v-model="pswNew2" class="w3-input w3-border" type="password" placeholder="请再次输入新密码" name="pswNew2" required>
+                    <a class="w3-button w3-block w3-green w3-section w3-padding" v-on:click="profile">确定</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+<script src="js/profile.js"></script>
+</body>
+</html>
