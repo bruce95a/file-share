@@ -5,11 +5,12 @@ add a directory to share, then you can share the files through QR-Code. Someone 
 
 ## written in java
 * Spring
-* Thymeleaf
 * MyBatis
 * H2 database
 * ZXing
 * w3.css
+* vue.js
+* axios.js
 
 ## default value
 * user/password: admin/admin
