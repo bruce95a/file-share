@@ -37,7 +37,7 @@ const app = new Vue({
                 app.msg = '两次密码不一致';
                 return;
             }
-            axios.post('/profile', {
+            axios.put('/profile', {
                 user: this.user,
                 psw: this.psw,
                 pswNew: this.pswNew

@@ -20,7 +20,7 @@ const app = new Vue({
     },
     methods: {
         cfg() {
-            axios.post('/config', {
+            axios.put('/config', {
                 store: this.store,
                 address: this.address
             })
