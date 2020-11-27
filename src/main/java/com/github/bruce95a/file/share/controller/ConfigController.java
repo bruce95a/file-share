@@ -92,29 +92,6 @@ public class ConfigController {
         return "redirect:/";
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String register(@RequestParam("user") String name,
-                           @RequestParam("psw") String password,
-                           @RequestParam("psw2") String password2,
-                           HttpServletRequest request, Model model) {
-        model.addAttribute("name", name);
-        if (!password.equals(password2)) {
-            model.addAttribute("msg", "密码不一致");
-            return "register";
-        }
-        if (!configService.setUserName(name)) {
-            model.addAttribute("msg", "发生错误");
-            return "register";
-        }
-        if (!configService.setUserPassword(password)) {
-            model.addAttribute("msg", "发生错误");
-            return "register";
-        }
-        HttpSession session = request.getSession();
-        session.setAttribute("User", "user");
-        return "redirect:/report";
-    }
-
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public String profile(Model model) {
         String name = configService.getUserName();

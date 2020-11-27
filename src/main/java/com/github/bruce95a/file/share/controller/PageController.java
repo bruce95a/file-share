@@ -16,11 +16,6 @@ public class PageController {
         return "index";
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.GET)
-    public String register() {
-        return "register";
-    }
-
     @RequestMapping(value = "/upload", method = RequestMethod.GET)
     public String upload() {
         return "upload";
