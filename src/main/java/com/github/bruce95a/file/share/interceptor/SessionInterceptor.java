@@ -10,21 +10,22 @@ import javax.servlet.http.HttpSession;
 public class SessionInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        /*HttpSession session = request.getSession();
+        HttpSession session = request.getSession();
         String requestURI = request.getRequestURI();
         if (session.getAttribute("User") != null) {
-            if ("/".equals(requestURI)) {
-                response.sendRedirect("/report");
+            if ("/".equals(requestURI) || "/index.html".equals(requestURI)) {
+                response.sendRedirect("/report.html");
                 return false;
             }
             return true;
         }
-        if ("/".equals(requestURI) || "/login".equals(requestURI)) {
+        if ("/".equals(requestURI) || "/index.html".equals(requestURI) || "/login".equals(requestURI)) {
             return true;
         }
-        response.sendRedirect("/");
-        return false;*/
-        return true;
+        if (requestURI.contains(".html")) {
+            response.sendRedirect("/");
+        }
+        return false;
     }
 
     @Override

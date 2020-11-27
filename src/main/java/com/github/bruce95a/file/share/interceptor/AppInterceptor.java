@@ -6,22 +6,18 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 public class AppInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        /*ServletContext context = request.getServletContext();
+        ServletContext context = request.getServletContext();
         if (context.getAttribute("User") == null) {
             return true;
         }
-        HttpSession session = request.getSession();
-        if (session.getAttribute("User") != null) {
-            return true;
+        if (!"/login".equals(request.getRequestURI())) {
+            response.sendRedirect("/info.html");
         }
-        response.sendRedirect("/info?l=1");
-        return false;*/
-        return true;
+        return false;
     }
 
     @Override
