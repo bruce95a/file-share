@@ -16,7 +16,7 @@
 
 	<properties>
 		<java.version>11</java.version>
-		<sqlite-jdbc.version>3.32.3.2</sqlite-jdbc.version>
+		<sqlite-jdbc.version>3.41.2.2</sqlite-jdbc.version>
 		<zxing.version>3.4.0</zxing.version>
 	</properties>
 
